@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padystroke - 个人主页</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --warm-bg: #fef9f3;
+            --card-bg: #ffffff;
+            --primary: #f4a261;
+            --secondary: #e76f51;
+            --accent: #2a9d8f;
+            --text: #3d3d3d;
+            --text-light: #6b6b6b;
+            --shadow: 0 8px 32px rgba(244, 162, 97, 0.12);
+            --shadow-hover: 0 12px 40px rgba(244, 162, 97, 0.2);
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--warm-bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating decorations */
+        .decoration {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .deco-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: -100px;
+            right: -80px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .deco-2 {
+            width: 200px;
+            height: 200px;
+            background: var(--accent);
+            bottom: 10%;
+            left: -60px;
+            animation: float 6s ease-in-out infinite reverse;
+        }
+
+        .deco-3 {
+            width: 150px;
+            height: 150px;
+            background: var(--secondary);
+            top: 40%;
+            right: -40px;
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 0 8px 24px rgba(244, 162, 97, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar::after {
+            content: '🎮';
+            font-size: 48px;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero .tagline span {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 500;
+        }
+
+        /* Section titles */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .section-title .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .section-title .icon.work {
+            background: rgba(244, 162, 97, 0.15);
+        }
+
+        .section-title .icon.hobby {
+            background: rgba(42, 157, 143, 0.15);
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .timeline-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            border-left: 4px solid transparent;
+        }
+
+        .timeline-item:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+            border-left-color: var(--primary);
+        }
+
+        .timeline-item.current {
+            border-left-color: var(--accent);
+        }
+
+        .timeline-item .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .badge.now {
+            background: rgba(42, 157, 143, 0.12);
+            color: var(--accent);
+        }
+
+        .badge.past {
+            background: rgba(107, 107, 107, 0.1);
+            color: var(--text-light);
+        }
+
+        .timeline-item h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item .company {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .timeline-item .desc {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        .timeline-item .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .timeline-item .tag {
+            padding: 4px 10px;
+            background: var(--warm-bg);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Hobbies */
+        .hobbies {
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .hobby-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 32px 28px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .hobby-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+        }
+
+        .hobby-card .emoji {
+            font-size: 40px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .hobby-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .hobby-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 24px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .footer .wave {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 8px;
+            animation: wave 2s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 16px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .timeline-item {
+                padding: 20px 22px;
+            }
+
+            .hobby-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration deco-1"></div>
+    <div class="decoration deco-2"></div>
+    <div class="decoration deco-3"></div>
+
+    <div class="container">
+        <!-- Hero -->
+        <section class="hero">
+            <div class="avatar"></div>
+            <h1>Padystroke</h1>
+            <p class="tagline">
+                游戏行业探索者 · 跨国工作经验<br>
+                热爱<span>游戏</span>与<span>骑行</span>的生活家
+            </p>
+        </section>
+
+        <!-- Work Experience -->
+        <section class="timeline">
+            <div class="section-title">
+                <div class="icon work">💼</div>
+                <span>工作经历</span>
+            </div>
+
+            <div class="timeline-item current">
+                <span class="badge now">现在</span>
+                <h3>游戏发行专员</h3>
+                <div class="company">独立游戏发行公司</div>
+                <div class="desc">
+                    负责多款独立游戏的国内市场推广，通过联系B站UP主进行内容合作，为游戏创造曝光与口碑传播。
+                </div>
+                <div class="tags">
+                    <span class="tag">🦊 Foxy Dumplings</span>
+                    <span class="tag">🗺️ Map Map</span>
+                    <span class="tag">🃏 王牌妖相</span>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="badge past">曾任</span>
+                <h3>运营协调</h3>
+                <div class="company">墨西哥海运公司</div>
+                <div class="desc">
+                    协调国际海运业务的日常运营，处理跨国物流调度与客户沟通，积累了丰富的跨文化协作经验。
+                </div>
+                <div class="tags">
+                    <span class="tag">🚢 国际物流</span>
+                    <span class="tag">🌎 跨文化沟通</span>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <span class="badge past">曾任</span>
+                <h3>销售</h3>
+                <div class="company">美国IT培训公司</div>
+                <div class="desc">
+                    面向北美市场推广IT培训课程，通过电话与线上渠道开发客户，锻炼了出色的沟通与销售能力。
+                </div>
+                <div class="tags">
+                    <span class="tag">💻 IT教育</span>
+                    <span class="tag">🇺🇸 北美市场</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hobbies -->
+        <section class="hobbies">
+            <div class="section-title">
+                <div class="icon hobby">🌿</div>
+                <span>兴趣爱好</span>
+            </div>
+
+            <div class="hobby-grid">
+                <div class="hobby-card">
+                    <span class="emoji">🎮</span>
+                    <h3>游戏</h3>
+                    <p>热爱各类游戏体验，从独立小品到3A大作，用心感受每一个精心设计的游戏世界。</p>
+                </div>
+
+                <div class="hobby-card">
+                    <span class="emoji">🚴</span>
+                    <h3>骑行</h3>
+                    <p>喜欢在风中自由骑行，用双轮丈量城市与自然，享受速度与风景交织的旅途。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span class="wave">🍃</span>
+            <p>在游戏与骑行中，发现生活的更多可能</p>
+        </footer>
+    </div>
+</body>
+</html>
