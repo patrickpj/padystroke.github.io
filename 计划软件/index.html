@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6b35f" />
+    <title>皮皮猫看着你变好</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="screen active" id="screen-today" aria-label="今日">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" id="todayDate">今天</p>
+            <h1>皮皮猫看着你变好</h1>
+          </div>
+          <button class="icon-button" id="resetDemo" type="button" aria-label="重置演示数据">↻</button>
+        </header>
+
+        <section class="cat-panel">
+          <div class="cat-face" aria-hidden="true">
+            <span class="ear left"></span>
+            <span class="ear right"></span>
+            <span class="eye left"></span>
+            <span class="eye right"></span>
+            <span class="nose"></span>
+            <span class="mouth"></span>
+          </div>
+          <div>
+            <p class="cat-line" id="catLine">今天先完成一个小动作。</p>
+            <div class="progress-wrap">
+              <span>今日完成度</span>
+              <strong id="todayPercent">0%</strong>
+            </div>
+            <div class="progress-bar"><span id="progressFill"></span></div>
+          </div>
+        </section>
+
+        <section class="quick-actions" aria-label="快速记录">
+          <button type="button" data-open="life">记一条</button>
+          <button type="button" data-open="meal">记饮食</button>
+          <button type="button" data-open="workout">记训练</button>
+          <button type="button" data-open="review">做复盘</button>
+        </section>
+
+        <section class="section-head">
+          <h2>今天要做</h2>
+          <span id="taskCount">0 项</span>
+        </section>
+        <div class="task-list" id="taskList"></div>
+
+        <section class="section-head">
+          <h2>今日饮食</h2>
+          <span id="mealScore">未记录</span>
+        </section>
+        <div class="meal-grid" id="mealGrid"></div>
+      </section>
+
+      <section class="screen" id="screen-log" aria-label="记录">
+        <header class="page-header">
+          <h1>生活时间线</h1>
+          <button class="primary small" type="button" data-open="life">新增</button>
+        </header>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="screen" id="screen-plan" aria-label="计划">
+        <header class="page-header">
+          <h1>本周计划</h1>
+          <button class="primary small" type="button" data-open="plan">编辑</button>
+        </header>
+        <section class="section-head">
+          <h2>训练安排</h2>
+          <span id="workoutWeekStatus">0/0</span>
+        </section>
+        <div class="week-list" id="weekList"></div>
+
+        <section class="section-head">
+          <h2>饮食目标</h2>
+          <span>计划 vs 实际</span>
+        </section>
+        <div class="nutrition-card">
+          <div>
+            <span>蛋白质</span>
+            <strong id="proteinDays">0 天</strong>
+          </div>
+          <div>
+            <span>蔬菜</span>
+            <strong id="veggieDays">0 天</strong>
+          </div>
+          <div>
+            <span>饮水</span>
+            <strong id="waterDays">0 天</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-stats" aria-label="统计">
+        <header class="page-header">
+          <h1>皮皮猫周报</h1>
+          <span class="badge" id="weekRange">本周</span>
+        </header>
+        <div class="stats-grid">
+          <article>
+            <span>记录</span>
+            <strong id="statLogs">0</strong>
+          </article>
+          <article>
+            <span>训练</span>
+            <strong id="statWorkouts">0</strong>
+          </article>
+          <article>
+            <span>饮食达标</span>
+            <strong id="statMeals">0</strong>
+          </article>
+          <article>
+            <span>复盘</span>
+            <strong id="statReviews">0</strong>
+          </article>
+        </div>
+        <section class="report-card">
+          <h2>本周观察</h2>
+          <p id="weeklySummary">开始记录后，这里会自动生成你的本周趋势。</p>
+        </section>
+        <section class="mood-strip" id="moodStrip"></section>
+      </section>
+
+      <section class="screen" id="screen-profile" aria-label="我的">
+        <header class="page-header">
+          <h1>我的目标</h1>
+        </header>
+        <section class="cloud-card">
+          <div>
+            <h2>云同步</h2>
+            <p id="cloudStatus">未配置 Supabase，当前使用本地保存。</p>
+          </div>
+          <button class="primary small" type="button" data-open="cloud">设置</button>
+        </section>
+        <form class="auth-card" id="authForm">
+          <label>
+            登录邮箱
+            <input id="authEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+          </label>
+          <label>
+            登录密码
+            <input id="authPassword" type="password" placeholder="至少 6 位" autocomplete="current-password" />
+          </label>
+          <div class="auth-actions">
+            <button class="primary" type="submit" data-auth-action="signin">登录</button>
+            <button class="secondary" type="submit" data-auth-action="signup">注册</button>
+          </div>
+        </form>
+        <form class="settings" id="settingsForm">
+          <label>
+            本周训练目标
+            <input id="targetWorkouts" type="number" min="1" max="7" />
+          </label>
+          <label>
+            每日饮水目标
+            <input id="targetWater" type="number" min="1" max="12" />
+          </label>
+          <label>
+            晚间复盘提醒
+            <input id="reviewTime" type="time" />
+          </label>
+          <button class="primary" type="submit">保存设置</button>
+        </form>
+        <section class="data-card">
+          <h2>数据状态</h2>
+          <p>默认保存在当前浏览器本地；配置 Supabase 并登录后，会同步到云端。</p>
+        </section>
+      </section>
+
+      <nav class="tabbar" aria-label="主导航">
+        <button class="active" type="button" data-tab="today">今日</button>
+        <button type="button" data-tab="log">记录</button>
+        <button type="button" data-tab="plan">计划</button>
+        <button type="button" data-tab="stats">统计</button>
+        <button type="button" data-tab="profile">我的</button>
+      </nav>
+    </main>
+
+    <dialog class="modal" id="entryModal">
+      <form method="dialog" class="modal-card" id="entryForm">
+        <header>
+          <h2 id="modalTitle">新增记录</h2>
+          <button class="icon-button" value="cancel" type="submit" aria-label="关闭">×</button>
+        </header>
+        <div id="modalFields"></div>
+        <button class="primary" value="default" type="submit">保存</button>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
